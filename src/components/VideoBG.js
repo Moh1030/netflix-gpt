@@ -11,7 +11,7 @@ const VideoBG = ({ movieId }) => {
   return (
     <div className="absolute inset-0 -z-10 overflow-hidden">
       <iframe
-        className="w-screen h-screen object-cover scale-125 pointer-events-none"
+        className="w-full h-screen object-cover scale-125 pointer-events-none"
         src={`https://www.youtube.com/embed/${trailerVideo.key}?autoplay=1&mute=1&controls=0&loop=1&playlist=${trailerVideo.key}`}
         title="YouTube video player"
         allow="autoplay; encrypted-media"

@@ -3,10 +3,10 @@ import { auth } from "../utils/firebase";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { LOGO, USER_LOGO } from "../utils/constants";
-//import { useSelector } from "react-redux";
+import { toggleGptSearchView } from "../utils/gptSlice";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -19,7 +19,11 @@ const Header = () => {
       });
   };
   const dispatch = useDispatch();
-  //const user = useSelector((state) => state.user);
+  const showGptSearch = useSelector((state) => state.gpt.showGptSearch);
+
+  const handleGptSearchClick = () => {
+    dispatch(toggleGptSearchView());
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -38,8 +42,6 @@ const Header = () => {
 
   return (
     <div className="fixed top-0 left-0 w-screen px-12 pt-2 pb-4 flex justify-between items-center bg-gradient-to-b from-black/90 via-black/40 to-transparent z-50">
-
-
       <img
         className="w-32"
         src={LOGO}
@@ -47,6 +49,7 @@ const Header = () => {
       />
       {location.pathname === "/browse" && (
         <div className="flex">
+          <button className="text-white bg-gray-600 px-4 py-1 rounded-lg mr-4 font-semibold hover:bg-gray-700" onClick={handleGptSearchClick}>{showGptSearch ? "HomePage" : "GPT Search"}</button>
           <img
             className="w-10 h-10 rounded cursor-pointer float-right mt-2"
             src={USER_LOGO}
